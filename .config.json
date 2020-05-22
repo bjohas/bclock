@@ -6,6 +6,6 @@
   "offset": 2,
   "handles": [
     { "offset": "-4", "label": "W", "colour": "blue" },
-    { "offset": "0", "label": "GMT", "colour": "grey" }
+    { "offset": "0", "label": "GMT", "colour": "red" }
   ]
 }

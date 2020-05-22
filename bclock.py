@@ -5,6 +5,8 @@ import time
 import sys
 import json
 import os
+from colour import Color
+import datetime
 
 
 class clock(tk.Tk):
@@ -61,14 +63,21 @@ class clock(tk.Tk):
             self.timezones[c['label']] = c['offset']
             self.w.create_line(0, 0, 0, 0, fill=c['colour'],
                                width=4, tags=c['label'])
+            color = Color(c['colour'])
+            color.set_saturation(0.5)
+            self.w.create_line(0, 0, 0, 0, fill=color.get_web(),
+                               width=2, tags=c['label'] + '_minute')
             self.w.create_text(
                 self.radius / 5, 2 * (i + 1) * 10, text=c['label'], fill=c['colour'], font=('Times New Roman', 10), tags=c['label'] + '_TEXT')
             self.change_clock(c['label'])
 
     def change_clock(self, tag):
-
-        hour = time.gmtime()[3] + int(self.timezones[tag])
-        # minute = time.localtime()[4]
+        utc = datetime.datetime.utcnow()
+        delta = datetime.timedelta(
+            hours=int(self.timezones[tag]), minutes=(float(self.timezones[tag]) - int(self.timezones[tag])) * 60)
+        tz_time = utc + delta
+        hour = tz_time.hour
+        minute = tz_time.minute
         # seconds = time.localtime()[5]
         # # seconds
         # sec_degree = seconds*6 - 90
@@ -76,17 +85,18 @@ class clock(tk.Tk):
         # sec_x = 270 + 230 * cos(sec_angle)
         # sec_y = 270 + 230 * sin(sec_angle)
         # self.w.coords('seconds', (self.xcentre, self.xcentre, sec_x, sec_y))
-        # # minute
-        # min_degree = minute*6 - 90
-        # min_angle = (min_degree*pi)/180
-        # min_x = 270 + 200 * cos(min_angle)
-        # min_y = 270 + 200 * sin(min_angle)
-        # self.w.coords('minute', (self.xcentre, self.xcentre, min_x, min_y))
+        # minute
+        min_degree = minute*6 - 90
+        min_angle = (min_degree*pi)/180
+        min_x = self.xcentre + .85 * self.radius * cos(min_angle)
+        min_y = self.ycentre + .85 * self.radius * sin(min_angle)
+        self.w.coords(tag + '_minute', (self.xcentre,
+                                        self.xcentre, min_x, min_y))
         # hour
-        hour_degree = hour*30 - 75
+        hour_degree = hour*30 + ((min_degree + 90) / 360) * 30 - 90
         hour_angle = (hour_degree*pi)/180
-        hour_x = self.xcentre + .9 * self.radius * cos(hour_angle)
-        hour_y = self.ycentre + .9 * self.radius * sin(hour_angle)
+        hour_x = self.xcentre + .75 * self.radius * cos(hour_angle)
+        hour_y = self.ycentre + .75 * self.radius * sin(hour_angle)
         self.w.coords(tag, (self.xcentre, self.ycentre, hour_x, hour_y))
         # self.w.coords(
         #     tag + '_TEXT', (hour_x + self.x_offset, hour_y + self.y_offset))
