@@ -18,6 +18,8 @@ class clock(tk.Tk):
         if os.name == 'posix':
             self.wm_attributes('-type', 'normal')
 
+        if config['noTitle']:
+            self.wm_overrideredirect(True)
         self.resizable(False, False)
         self.wm_attributes(
             '-alpha', config['alpha'] if 'alpha' in config else 0.5)
