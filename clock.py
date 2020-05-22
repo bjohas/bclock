@@ -19,9 +19,9 @@ class clock(tk.Tk):
             self.wm_attributes('-type', 'normal')
         self.wm_attributes('-alpha', 0.5)
         self.wm_attributes('-topmost', True)
-        self.radius = 100
-        self.x_offset = 10
-        self.y_offset = 10
+        self.radius = 60
+        self.x_offset = 2
+        self.y_offset = 2
         self.xcentre = self.x_offset + self.radius
         self.ycentre = self.y_offset + self.radius
         self.center_dot_radius = 5
@@ -80,8 +80,8 @@ class clock(tk.Tk):
         # hour
         hour_degree = hour*30 - 75
         hour_angle = (hour_degree*pi)/180
-        hour_x = self.xcentre + .75 * self.radius * cos(hour_angle)
-        hour_y = self.ycentre + .75 * self.radius * sin(hour_angle)
+        hour_x = self.xcentre + .9 * self.radius * cos(hour_angle)
+        hour_y = self.ycentre + .9 * self.radius * sin(hour_angle)
         self.w.coords(tag, (self.xcentre, self.ycentre, hour_x, hour_y))
         # self.w.coords(
         #     tag + '_TEXT', (hour_x + self.x_offset, hour_y + self.y_offset))
