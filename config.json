@@ -5,7 +5,26 @@
   "radius": 100,
   "offset": 2,
   "handles": [
-    { "offset": "-4", "label": "W", "colour": "blue" },
-    { "offset": "0", "label": "GMT", "colour": "red" }
+    {
+      "offset": "-4",
+      "label": "C",
+      "colour": "blue",
+      "width": 6,
+      "length": 0.8
+    },
+    {
+      "offset": "0",
+      "label": "GMT",
+      "colour": "green",
+      "width": 4,
+      "length": 0.8
+    },
+    {
+      "offset": "7",
+      "label": "C",
+      "colour": "red",
+      "width": 4,
+      "length": 0.8
+    }
   ]
 }

@@ -15,7 +15,7 @@ class clock(tk.Tk):
         tk.Tk.__init__(self)
         self.title('B Clock')
         # self.wm_overrideredirect(True)
-        self.timezones = {}
+        self.handles = {}
 
         if os.name == 'posix':
             self.wm_attributes('-type', 'normal')
@@ -60,25 +60,22 @@ class clock(tk.Tk):
         #                                                                          ) + 270, (240 * cos((self.degree*pi)/180)) + 270, (240 * sin((self.degree*pi)/180)) + 270)
 
         for i, c in enumerate(config['handles']):
-            self.timezones[c['label']] = c['offset']
-            if i==0:
-                self.w.create_line(0, 0, 0, 0, fill=c['colour'],
-                                   width=6, tags=c['label'])
-            else:
-                self.w.create_line(0, 0, 0, 0, fill=c['colour'],
-                                   width=4, tags=c['label'])                
+            tag = c['label'] + '_' + str(i)
+            self.handles[tag] = c
+            self.w.create_line(0, 0, 0, 0, fill=c['colour'],
+                               width=c['width'] if 'width' in c else 4, tags=tag)
             color = Color(c['colour'])
             color.set_saturation(0.5)
             self.w.create_line(0, 0, 0, 0, fill=color.get_web(),
-                               width=2, tags=c['label'] + '_minute')
+                               width=2, tags=tag + '_minute')
             self.w.create_text(
-                self.radius / 5, 2 * (i + 1) * 10, text=c['label'], fill=c['colour'], font=('Times New Roman', 10), tags=c['label'] + '_TEXT')
-            self.change_clock(c['label'])
+                self.radius / 5, 2 * (i + 1) * 10, text=c['label'], fill=c['colour'], font=('Times New Roman', 10), tags=tag + '_TEXT')
+            self.change_clock(tag)
 
     def change_clock(self, tag):
         utc = datetime.datetime.utcnow()
         delta = datetime.timedelta(
-            hours=int(self.timezones[tag]), minutes=(float(self.timezones[tag]) - int(self.timezones[tag])) * 60)
+            hours=int(self.handles[tag]['offset']), minutes=(float(self.handles[tag]['offset']) - int(self.handles[tag]['offset'])) * 60)
         tz_time = utc + delta
         hour = tz_time.hour
         minute = tz_time.minute
@@ -92,15 +89,16 @@ class clock(tk.Tk):
         # minute
         min_degree = minute*6 - 90
         min_angle = (min_degree*pi)/180
-        min_x = self.xcentre + .85 * self.radius * cos(min_angle)
-        min_y = self.ycentre + .85 * self.radius * sin(min_angle)
+        hour_len = self.handles[tag]['length'] if 'length' in self.handles[tag] else .75
+        min_x = self.xcentre + (hour_len + .1) * self.radius * cos(min_angle)
+        min_y = self.ycentre + (hour_len + .1) * self.radius * sin(min_angle)
         self.w.coords(tag + '_minute', (self.xcentre,
                                         self.xcentre, min_x, min_y))
         # hour
         hour_degree = hour*30 + ((min_degree + 90) / 360) * 30 - 90
         hour_angle = (hour_degree*pi)/180
-        hour_x = self.xcentre + .75 * self.radius * cos(hour_angle)
-        hour_y = self.ycentre + .75 * self.radius * sin(hour_angle)
+        hour_x = self.xcentre + hour_len * self.radius * cos(hour_angle)
+        hour_y = self.ycentre + hour_len * self.radius * sin(hour_angle)
         self.w.coords(tag, (self.xcentre, self.ycentre, hour_x, hour_y))
         # self.w.coords(
         #     tag + '_TEXT', (hour_x + self.x_offset, hour_y + self.y_offset))
