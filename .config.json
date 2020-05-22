@@ -1,13 +1,10 @@
 {
-    "backgroundColor": "Cyan",
-    "alpha": 0.5,
-    "radius": 60,
-    "offset": 2,
-    "handles" : [
-	{ "offset": "-4", "label": "W", "colour": "blue" },
-	{ "offset": "0", "label": "GMT", "colour": "grey" },
-	{ "offset": "1", "label": "L", "colour": "black" },
-	{ "offset": "2", "label": "G", "colour": "grey" },
-	{ "offset": "3", "label": "S", "colour": "grey" }	
-    ]
+  "backgroundColor": "Cyan",
+  "alpha": 0.5,
+  "radius": 100,
+  "offset": 2,
+  "handles": [
+    { "offset": "-4", "label": "W", "colour": "blue" },
+    { "offset": "0", "label": "GMT", "colour": "grey" }
+  ]
 }

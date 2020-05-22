@@ -17,16 +17,19 @@ class clock(tk.Tk):
 
         if os.name == 'posix':
             self.wm_attributes('-type', 'normal')
-        self.wm_attributes('-alpha', 0.5)
+
+        self.resizable(False, False)
+        self.wm_attributes(
+            '-alpha', config['alpha'] if 'alpha' in config else 0.5)
         self.wm_attributes('-topmost', True)
-        self.radius = 60
-        self.x_offset = 2
-        self.y_offset = 2
+        self.radius = config['radius'] if 'radius' in config else 60
+        self.x_offset = config['offset'] if 'offset' in config else 2
+        self.y_offset = config['offset'] if 'offset' in config else 2
         self.xcentre = self.x_offset + self.radius
         self.ycentre = self.y_offset + self.radius
         self.center_dot_radius = 5
         self.w = tk.Canvas(self, width=2 * self.radius + 2 * self.x_offset, height=2 * self.radius + 2 * self.y_offset,
-                           bg='Cyan')
+                           bg=config['backgroundColor'] if 'backgroundColor' in config else 'Cyan')
         self.w.pack()
         self.w.create_oval(self.x_offset, self.y_offset, 2 * self.radius +
                            self.x_offset, 2 * self.radius + self.y_offset)  # Main circle
@@ -52,12 +55,12 @@ class clock(tk.Tk):
         #     self.w.create_line((self.radius * cos((self.degree*pi)/180)) + 270, (self.radius * sin((self.degree*pi)/180)
         #                                                                          ) + 270, (240 * cos((self.degree*pi)/180)) + 270, (240 * sin((self.degree*pi)/180)) + 270)
 
-        for i, c in enumerate(config):
+        for i, c in enumerate(config['handles']):
             self.timezones[c['label']] = c['offset']
             self.w.create_line(0, 0, 0, 0, fill=c['colour'],
                                width=4, tags=c['label'])
             self.w.create_text(
-                2 * self.x_offset, 2 * (i + 1) * self.y_offset, text=c['label'], fill=c['colour'], font=('Times New Roman', 10), tags=c['label'] + '_TEXT')
+                self.radius / 5, 2 * (i + 1) * 10, text=c['label'], fill=c['colour'], font=('Times New Roman', 10), tags=c['label'] + '_TEXT')
             self.change_clock(c['label'])
 
     def change_clock(self, tag):
