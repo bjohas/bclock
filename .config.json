@@ -1,6 +1,8 @@
 {
     "backgroundColor": "Cyan",
-    "alpha": "0.5",
+    "alpha": 0.5,
+    "radius": 60,
+    "offset": 2,
     "handles" : [
 	{ "offset": "-4", "label": "W", "colour": "blue" },
 	{ "offset": "0", "label": "GMT", "colour": "grey" },
