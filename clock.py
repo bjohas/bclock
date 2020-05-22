@@ -88,7 +88,7 @@ class clock(tk.Tk):
         self.after(1000, self.change_clock, tag)
 
 
-config_file = '.config.json'
+config_file = os.environ['HOME'] + '/.config/bclock/config.json'
 if len(sys.argv) > 1:
     config_file = sys.argv[1]
 
