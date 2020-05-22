@@ -61,8 +61,12 @@ class clock(tk.Tk):
 
         for i, c in enumerate(config['handles']):
             self.timezones[c['label']] = c['offset']
-            self.w.create_line(0, 0, 0, 0, fill=c['colour'],
-                               width=4, tags=c['label'])
+            if i==0:
+                self.w.create_line(0, 0, 0, 0, fill=c['colour'],
+                                   width=6, tags=c['label'])
+            else:
+                self.w.create_line(0, 0, 0, 0, fill=c['colour'],
+                                   width=4, tags=c['label'])                
             color = Color(c['colour'])
             color.set_saturation(0.5)
             self.w.create_line(0, 0, 0, 0, fill=color.get_web(),
