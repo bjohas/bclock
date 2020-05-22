@@ -4,6 +4,7 @@ from math import sin, cos, pi
 import time
 import sys
 import json
+import os
 
 
 class clock(tk.Tk):
@@ -13,7 +14,11 @@ class clock(tk.Tk):
         self.title('B Clock')
         # self.wm_overrideredirect(True)
         self.timezones = {}
+
+        if os.name == 'posix':
+            self.wm_attributes('-type', 'normal')
         self.wm_attributes('-alpha', 0.5)
+        self.wm_attributes('-topmost', True)
         self.radius = 100
         self.x_offset = 10
         self.y_offset = 10
