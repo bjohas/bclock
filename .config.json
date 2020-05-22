@@ -1,4 +1,11 @@
-[
-  { "offset": "1", "label": "L", "colour": "blue" },
-  { "offset": "-4", "label": "W", "colour": "green" }
-]
+{
+    "backgroundColor": "Cyan",
+    "alpha": "0.5",
+    "handles" : [
+	{ "offset": "-4", "label": "W", "colour": "blue" },
+	{ "offset": "0", "label": "GMT", "colour": "grey" },
+	{ "offset": "1", "label": "L", "colour": "black" },
+	{ "offset": "2", "label": "G", "colour": "grey" },
+	{ "offset": "3", "label": "S", "colour": "grey" }	
+    ]
+}
