@@ -1,30 +1,36 @@
 {
-  "noTitle": false,
-  "backgroundColor": "Cyan",
-  "alpha": 0.5,
-  "radius": 100,
-  "offset": 2,
-  "handles": [
-    {
-      "offset": "-4",
-      "label": "C",
-      "colour": "blue",
-      "width": 6,
-      "length": 0.8
-    },
-    {
-      "offset": "0",
-      "label": "GMT",
-      "colour": "green",
-      "width": 4,
-      "length": 0.8
-    },
-    {
-      "offset": "7",
-      "label": "C",
-      "colour": "red",
-      "width": 4,
-      "length": 0.8
-    }
-  ]
+    "noTitle": false,
+    "backgroundColor": "Cyan",
+    "alpha": 0.5,
+    "radius": 100,
+    "xyoffset": 2,
+    "hourMarkLength": 0.25,
+    "hourMarkColor": "Black",
+    "hourMarkWidth": 2,
+    "handles": [
+	{
+	    "offset": "-4",
+	    "label": "C",
+	    "colour": "blue",
+	    "width": 6,
+	    "length": 0.8,
+	    "mlength": 0.8
+	},
+	{
+	    "offset": "0",
+	    "label": "GMT",
+	    "colour": "green",
+	    "width": 4,
+	    "length": 0.8,
+	    "mlength": 0.8
+	},
+	{
+	    "offset": "7",
+	    "label": "C",
+	    "colour": "red",
+	    "width": 4,
+	    "length": 0.8,
+	    "mlength": 0.8	    
+	}
+    ]
 }

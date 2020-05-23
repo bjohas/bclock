@@ -27,19 +27,21 @@ class clock(tk.Tk):
             '-alpha', config['alpha'] if 'alpha' in config else 0.5)
         self.wm_attributes('-topmost', True)
         self.radius = config['radius'] if 'radius' in config else 60
-        self.x_offset = config['offset'] if 'offset' in config else 2
-        self.y_offset = config['offset'] if 'offset' in config else 2
+        self.x_offset = config['xyoffset'] if 'xyoffset' in config else 2
+        self.y_offset = config['xyoffset'] if 'xyoffset' in config else 2
         self.xcentre = self.x_offset + self.radius
         self.ycentre = self.y_offset + self.radius
         self.center_dot_radius = 5
         self.w = tk.Canvas(self, width=2 * self.radius + 2 * self.x_offset, height=2 * self.radius + 2 * self.y_offset,
                            bg=config['backgroundColor'] if 'backgroundColor' in config else 'Cyan')
         self.w.pack()
+        # Main circle
         self.w.create_oval(self.x_offset, self.y_offset, 2 * self.radius +
-                           self.x_offset, 2 * self.radius + self.y_offset)  # Main circle
+                           self.x_offset, 2 * self.radius + self.y_offset)  
         self.w.pack()
+        # Centre Dot
         self.w.create_oval(self.x_offset + self.radius - self.center_dot_radius, self.y_offset + self.radius - self.center_dot_radius,
-                           self.x_offset + self.radius + self.center_dot_radius, self.y_offset + self.radius + self.center_dot_radius, fill='Black')  # Centre Dot
+                           self.x_offset + self.radius + self.center_dot_radius, self.y_offset + self.radius + self.center_dot_radius, fill='Black')  
         self.w.pack()
         # Second Hand
         # self.w.create_line(0, 0, 0, 0, fill='Blue', width=1, tags='seconds')
@@ -47,11 +49,17 @@ class clock(tk.Tk):
         # self.w.create_line(0, 0, 0, 0, fill='Blue', width=2, tags='minute')
         # Hour Hand
 
+        # Drawing hour markings
+        hourMarkLength = config['hourMarkLength'] if 'hourMarkLength' in config else 0.1
+        hourMarkLength = 1-hourMarkLength
+        hourMarkColor = config['hourMarkColor'] if 'hourMarkColor' in config else 'Red'
+        hourMarkWidth = config['hourMarkWidth'] if 'hourMarkWidth' in config else 6
         for i in range(0, 12):
-            # Drawing hour co-orninates
             self.degree = i*30
-            self.w.create_line((self.radius * cos((self.degree*pi)/180)) + self.xcentre, (self.radius * sin((self.degree*pi)/180)) +
-                               self.ycentre, ((self.radius - self.x_offset) * cos((self.degree*pi)/180)) + self.xcentre, ((self.radius - self.x_offset) * sin((self.degree*pi)/180)) + self.ycentre, fill='Red', width=6)
+            self.w.create_line((self.radius * cos((self.degree*pi)/180)) + self.xcentre,
+                               (self.radius * sin((self.degree*pi)/180)) + self.ycentre,
+                               ((self.radius * hourMarkLength) * cos((self.degree*pi)/180)) + self.xcentre,
+                               ((self.radius * hourMarkLength) * sin((self.degree*pi)/180)) + self.ycentre, fill=hourMarkColor, width=hourMarkWidth)
 
         # for i in range(0, 60):
         #     # Drawing minute co-orninates
@@ -59,6 +67,7 @@ class clock(tk.Tk):
         #     self.w.create_line((self.radius * cos((self.degree*pi)/180)) + 270, (self.radius * sin((self.degree*pi)/180)
         #                                                                          ) + 270, (240 * cos((self.degree*pi)/180)) + 270, (240 * sin((self.degree*pi)/180)) + 270)
 
+        # Draw hour handles
         for i, c in enumerate(config['handles']):
             tag = c['label'] + '_' + str(i)
             self.handles[tag] = c
@@ -89,12 +98,13 @@ class clock(tk.Tk):
         # minute
         min_degree = minute*6 - 90
         min_angle = (min_degree*pi)/180
-        hour_len = self.handles[tag]['length'] if 'length' in self.handles[tag] else .75
-        min_x = self.xcentre + (hour_len + .1) * self.radius * cos(min_angle)
-        min_y = self.ycentre + (hour_len + .1) * self.radius * sin(min_angle)
+        min_len = self.handles[tag]['mlength'] if 'mlength' in self.handles[tag] else 1.0
+        min_x = self.xcentre + min_len * self.radius * cos(min_angle)
+        min_y = self.ycentre + min_len * self.radius * sin(min_angle)
         self.w.coords(tag + '_minute', (self.xcentre,
                                         self.xcentre, min_x, min_y))
         # hour
+        hour_len = self.handles[tag]['length'] if 'length' in self.handles[tag] else .75
         hour_degree = hour*30 + ((min_degree + 90) / 360) * 30 - 90
         hour_angle = (hour_degree*pi)/180
         hour_x = self.xcentre + hour_len * self.radius * cos(hour_angle)
