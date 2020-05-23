@@ -13,18 +13,15 @@ class clock(tk.Tk):
 
     def __init__(self, config):
         tk.Tk.__init__(self)
-        self.title('B Clock')
-        # self.wm_overrideredirect(True)
+        self.title('BClock')
+        self.className='tkbclock'
         self.handles = {}
-
         if os.name == 'posix':
             self.wm_attributes('-type', 'normal')
-
         if config['noTitle']:
             self.wm_overrideredirect(True)
         self.resizable(False, False)
-        self.wm_attributes(
-            '-alpha', config['alpha'] if 'alpha' in config else 0.5)
+        self.wm_attributes('-alpha', config['alpha'] if 'alpha' in config else 0.5)
         self.wm_attributes('-topmost', True)
         self.radius = config['radius'] if 'radius' in config else 60
         self.x_offset = config['xyoffset'] if 'xyoffset' in config else 2
@@ -32,7 +29,11 @@ class clock(tk.Tk):
         self.xcentre = self.x_offset + self.radius
         self.ycentre = self.y_offset + self.radius
         self.center_dot_radius = 5
-        self.w = tk.Canvas(self, width=2 * self.radius + 2 * self.x_offset, height=2 * self.radius + 2 * self.y_offset,
+        canvasWidth = 2 * self.radius + 2 * self.x_offset
+        canvasHeight = 2 * self.radius + 2 * self.y_offset
+        windowlocation = config['windowlocation'] if 'windowlocation' in config else "+0+0"
+        self.geometry(str(canvasWidth)+"x"+str(canvasHeight)+windowlocation)
+        self.w = tk.Canvas(self, width=canvasWidth, height=canvasHeight ,
                            bg=config['backgroundColor'] if 'backgroundColor' in config else 'Cyan')
         self.w.pack()
         # Main circle
