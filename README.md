@@ -21,3 +21,7 @@ python3 bclock.py config.json
 
 This is the first attempt at putting this together. There's lots of
 possible enhancements.
+
+# No longer maintained
+
+Improved version in pyqt here: https://github.com/bjohas/bclock2.
